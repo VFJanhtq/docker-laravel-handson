@@ -17,12 +17,18 @@ services:
   # 追記
   db:
     build: ./infra/mysql
-    
+    image: mysql:8.0
     volumes:
     - db-store:/var/lib/mysql
     
     environment:
-    - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=phper
+      - MYSQL_USER=phper
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+    
+    ports:
+      - 8006:80
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -37,5 +43,7 @@ services:
       - db
     links:
       - db
+    volumes:
+      - "./phpmyadmin/sessions:/sessions"
 volumes:
   db-store:
